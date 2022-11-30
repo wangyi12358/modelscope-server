@@ -31,10 +31,11 @@ async def image_words(image: str = ""):
   result = ocr_detection(image)
   # 获取到四个点的xy轴
 
+
 data = [
   [
-    220, # x1
-    14, # y1
+    220,  # x1
+    14,  # y1
     780,
     14,
     780,
@@ -123,6 +124,7 @@ data = [
     244
   ]
 ]
+
 
 @router.get("/test")
 async def image_test():
