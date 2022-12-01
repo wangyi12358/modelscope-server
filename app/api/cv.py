@@ -4,6 +4,7 @@ from modelscope.utils.constant import Tasks
 from modelscope.outputs import OutputKeys
 from app.utils.response import response
 from app.utils.image import crop
+from app.utils.constant import OssConst
 from app.utils.file import save_file, get_suffix
 from app.utils.oss import upload_by_file_name
 import cv2

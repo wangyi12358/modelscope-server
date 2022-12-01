@@ -1,16 +1,28 @@
 
+input_type = {
+  "text": "text",
+  "imageUrl": "imageUrl", # 图片
+  "videoUrl": "videoUrl",
+}
+
+output_type = {
+  "scores": "scores",
+  "text": "text",
+  "texts": "texts",
+  "imageUrl": "imageUrl"
+}
 
 task_cv = [
   {
     "taskName": '单标签图像分类',
     "taskKey": 'image-classification',
     "taskDesc": '对图像中的不同特征根据类别进行区分',
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/cv/image/category",
+        "apiPath": "/cv/image/category",
         "name": "获取图片类目(中文)",
-        "input": "url",
-        "output": "scores"
+        "input": input_type.get("imageUrl"),
+        "output": output_type.get("scores")
       }
     ]
   },
@@ -23,12 +35,12 @@ task_cv = [
     "taskName": '文字检测',
     "taskKey": 'ocr-detection',
     "taskDesc": '将图像中的文字检测出来并返回检测点坐标位置',
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/cv/image/words",
+        "apiPath": "/cv/image/words",
         "name": "获取图片文字(中英文)",
-        "input": "url",
-        "output": "texts"
+        "input": input_type.get("imageUrl"),
+        "output": output_type.get("texts")
       }
     ]
   },
@@ -226,12 +238,12 @@ task_cv = [
     "taskName": '人像卡通化',
     "taskKey": 'image-portrait-stylization',
     "taskDesc": '对输入的图像进行卡通化处理，实现风格变化',
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/cv/image/cartoon/3d",
+        "apiPath": "/cv/image/cartoon/3d",
         "name": "根据人像图片获取3d图片",
-        "input": "url",
-        "output": "url"
+        "input": input_type.get("imageUrl"),
+        "output": output_type.get("imageUrl")
       }
     ]
   },
@@ -244,12 +256,12 @@ task_cv = [
     "taskName": '获取视频商品类目',
     "taskKey": 'live-category',
     "taskDesc": '实时解析识别直播画面中的商品类别进行信息展示',
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/cv/video/category",
+        "apiPath": "/cv/video/category",
         "name": "直播商品类目识别模型-中文-电商领域",
-        "input": "video",
-        "output": "scores"
+        "input": input_type.get("videoUrl"),
+        "output": output_type.get("scores")
       }
     ]
   },
@@ -262,12 +274,12 @@ task_cv = [
     "taskName": '短视频内容分类',
     "taskKey": 'video-category',
     "taskDesc": '解析短视频语义进行场景分类',
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/cv/short/video/category",
+        "apiPath": "/cv/short/video/category",
         "name": "短视频内容分类模型-中文-通用领域",
-        "input": "video",
-        "output": "scores"
+        "input": input_type.get("videoUrl"),
+        "output": output_type.get("scores")
       }
     ]
   },
@@ -447,12 +459,21 @@ task_nlp = [
     "taskName": "命名实体识别",
     "taskKey": "named-entity-recognition",
     "taskDesc": "指识别自然语言文本中具有特定意义的实体，通用领域如人名、地名、机构名等",
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/nlp/entity",
+        "apiPath": "/nlp/entity",
         "name": "命名实体识别-英语-电商领域-large",
-        "input": "text",
-        "output": "scores"
+        "input": input_type.get("text"),
+        "output": output_type.get("scores"),
+        "samples": [
+          'I typically camp remotely in the back country and this will be great to bring along to keep devices charged when not driving and keep the kids power hungry tablets/iPads that we let them watch at night in the tent and during boring parts of the drive.',
+          'I just used it this weekend to power my Alpicool mini fridge on our road trip and was extremely satisfied with how well it worked and how long it lasted.',
+          'This little guy is great for camping, running fans, etc at the picnic table in the summer, charging devices, etc.',
+          'I got this for my camping trips.',
+          'It was an easy decision to buy this for camping and my DC travel CPAP machine.',
+          'If all I do is use it for topping up phones and tablets by USB all week, it will stay at 99% and then switch off at zero.',
+          'I bought this for the small size and the Anker brand, the later being a mistake.',
+        ],
       }
     ]
   }, {
@@ -526,7 +547,15 @@ task_nlp = [
   }, {
     "taskName": "文本生成",
     "taskKey": "text-generation",
-    "taskDesc": "模型接受各种形式的信息作为输入，包括文本或者非文本结构化信息等，生成可读的文字表述。"
+    "taskDesc": "模型接受各种形式的信息作为输入，包括文本或者非文本结构化信息等，生成可读的文字表述。",
+    "models": [
+      {
+        "apiPath": "/nlp/generate/product/desc",
+        "name": "PALM商品文案描述生成介绍",
+        "input": input_type.get("text"),
+        "output": output_type.get("text")
+      }
+    ]
   }, {
     "taskName": "文本摘要",
     "taskKey": "text-summarization",
@@ -554,12 +583,12 @@ task_multi_modal = [
     "taskName": "图像描述",
     "taskKey": "image-captioning",
     "taskDesc": "根据图片生成一段文本描述",
-    "modules": [
+    "models": [
       {
-        "apiPath": "/api/ofa/image/caption",
+        "apiPath": "/multi/modal/image/caption",
         "name": "图像描述-中文-电商领域",
-        "input": "url",
-        "output": "text"
+        "input": input_type.get("imageUrl"),
+        "output": output_type.get("text")
       }
     ]
   }
