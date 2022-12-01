@@ -3,6 +3,8 @@ from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 from app.utils.response import response
 from app.utils.image import crop
+from app.utils.oss import upload_by_file_name
+from app.utils.file import save_file
 
 router = APIRouter()
 
@@ -24,12 +26,6 @@ async def image_category(image: str = ""):
     res.append(obj)
   return response(data=res)
 
-
-@router.get("/words")
-async def image_words(image: str = ""):
-  ocr_detection = pipeline(Tasks.ocr_detection, model='damo/cv_resnet18_ocr-detection-line-level_damo')
-  result = ocr_detection(image)
-  # 获取到四个点的xy轴
 
 
 data = [
@@ -125,8 +121,32 @@ data = [
   ]
 ]
 
+# 获取图片文字
+@router.get("/words")
+async def image_words(image: str = ""):
+  ocr_detection = pipeline(Tasks.ocr_detection, model='damo/cv_resnet18_ocr-detection-line-level_damo')
+  result = ocr_detection(image)
+  print(result)
+  file_path = save_file("image", "words_image", image)
+  # 获取的文字对象
+  text = []
+  for polygon in result:
+    save_file_path = 'image/crop.jpg'
+    # 裁剪图片
+    crop(polygon, file_path, save_file_path)
+    # 上传裁剪图片
+    file_url = await upload_by_file_name("crop.jpg")
+    ocr_recognition = pipeline(Tasks.ocr_recognition, model='damo/cv_convnextTiny_ocr-recognition-general_damo')
+    # 根据图片链接获取文字文本
+    text_result = ocr_recognition(file_url)
+    print(text_result)
+    text.append(text_result['text'])
+  # 获取到四个点的xy轴
+  return response(data=text)
+
 
 @router.get("/test")
 async def image_test():
   crop(data[4])
-  return 'ok'
+  url = await upload_by_file_name("crop.jpg")
+  return url

@@ -4,7 +4,7 @@ import operator
 import math
 
 
-def crop(polygon: []):
+def crop(polygon: [], image: str, save_file_path: str):
   num_x = []
   num_y = []
   for index, num in enumerate(polygon):
@@ -12,15 +12,17 @@ def crop(polygon: []):
       num_x.append(num)
     else:
       num_y.append(num)
-
-  max_x = max(enumerate(num_x), key=operator.itemgetter(1))
-  print(num_x)
-  print(max_x)
+  _, max_x = max(enumerate(num_x), key=operator.itemgetter(1))
+  _, min_x = min(enumerate(num_x), key=operator.itemgetter(1))
+  _, max_y = max(enumerate(num_y), key=operator.itemgetter(1))
+  _, min_y = min(enumerate(num_y), key=operator.itemgetter(1))
   offset = azimuthangle(polygon[0], polygon[1], polygon[2], polygon[3])
-  img = Image.open("./resources/ocr_detection.jpg")
-  # region = img.crop()
-  region = img.rotate(offset - 180, expand=1)
-  region.save('./resources/test.jpg')
+  print(offset)
+  img = Image.open(image)
+  img = img.crop((min_x, min_y, max_x, max_y))
+  if abs(offset) > 10:
+    img = img.rotate(90 - offset, expand=1)
+  img.save(save_file_path)
 
 
 def azimuthangle(x1, y1, x2, y2):
