@@ -2,10 +2,11 @@ version: '3'
 services:
   ai-server:
     build:
+      context: ./
       dockerfile: Dockerfile
     image: ai-server
     volumes:
-      - /home/ratel/test/logs:/logs
+      - /nv/projects/modelscope:/app
       - /root/.cache/modelscope:/mnt/workspace/.cache/modelscope
     container_name: ai-server
     ports:

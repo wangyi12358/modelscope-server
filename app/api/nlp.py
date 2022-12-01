@@ -32,22 +32,26 @@ ECOM = {
 }
 
 
-@router.get("/segmentation")
-async def text_segmentation(text: str = ""):
-  p = pipeline(task=Tasks.document_segmentation, model='damo/nlp_bert_document-segmentation_english-base')
-  result = p(documents=text)
-  return result
+# @router.get("/segmentation")
+# async def text_segmentation(text: str = ""):
+#   p = pipeline(task=Tasks.document_segmentation, model='damo/nlp_bert_document-segmentation_english-base')
+#   result = p(documents=text)
+#   return result
 
 
 ## 获取文本实体类型
-@router.get("/entity")
-async def entity(text: str = ""):
+@router.post("/entity")
+async def entity(body=Body(None)):
   ner_pipeline = pipeline(task=Tasks.named_entity_recognition,
                           model='damo/nlp_raner_named-entity-recognition_english-large-ecom')
-  result = ner_pipeline(text)
+  result = ner_pipeline(body['inputContent'])
   res = []
-  print(result)
   for item in result['output']:
     item["label"] = ECOM[item["type"]]
     res.append(item)
   return response(data=res)
+
+
+@router.post("/faq")
+async def faq():
+  return response(data="ok")
