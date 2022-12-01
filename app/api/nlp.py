@@ -117,8 +117,11 @@ async def dialog(body=Body(None)):
 # 中英文翻译
 # https://modelscope.cn/models/damo/nlp_csanmt_translation_en2zh/summary
 @router.post("/translation")
-async def translation():
-  return response(data="ok")
+async def translation(body=Body(None)):
+  text = body[BodyConst.input_content]
+  pipeline_ins = pipeline(task=Tasks.translation, model="damo/nlp_csanmt_translation_en2zh")
+  outputs = pipeline_ins(input=text)
+  return response(data=outputs['translation'])
 
 # 情感分析
 # https://modelscope.cn/models/damo/nlp_bert_sentiment-analysis_english-base/summary

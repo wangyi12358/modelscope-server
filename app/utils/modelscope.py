@@ -539,7 +539,15 @@ task_nlp = [
   }, {
     "taskName": "翻译",
     "taskKey": "translation",
-    "taskDesc": "将一种语言的文本翻译成指定语言的文本"
+    "taskDesc": "将一种语言的文本翻译成指定语言的文本",
+    "models": [
+      {
+        "apiPath": "/nlp/translation",
+        "name": "中英文翻译",
+        "input": input_type.get("text"),
+        "output": output_type.get("text")
+      }
+    ]
   }, {
     "taskName": "完形填空",
     "taskKey": "fill-mask",
