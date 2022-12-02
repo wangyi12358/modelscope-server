@@ -4,11 +4,11 @@ from modelscope.utils.constant import Tasks
 from modelscope.outputs import OutputKeys
 from app.utils.response import response
 from app.utils.image import crop
-from app.utils.constant import OssConst
 from app.utils.file import save_file, get_suffix
 from app.utils.oss import upload_by_file_name
 import cv2
 import os
+import random
 
 router = APIRouter()
 
@@ -76,7 +76,6 @@ async def video_category(body=Body(None)):
   category_pipeline = pipeline(
     Tasks.live_category, model='damo/cv_resnet50_live-category')
   result = category_pipeline('video_category.mp4')
-  print('Top-3 result: {}'.format(result))
   scores = result.get("scores")
   labels = result.get("labels")
   res = []
@@ -104,4 +103,26 @@ async def short_video_category(body=Body(None)):
     obj['score'] = str(score)
     res.append(obj)
   return response(data=res)
+
+
+# 人脸生成
+# https://modelscope.cn/models/damo/cv_gan_face-image-generation/summary
+@router.post("/generation/face")
+async def generation_face(
+    matting: bool = Body(embed=True, default=True)
+):
+  random_num = random.randint(0, 1000)
+  face_generation = pipeline(Tasks.face_image_generation, model='damo/cv_gan_face-image-generation')
+  result = face_generation(random_num)
+  cv2.imwrite('image/face.png', result[OutputKeys.OUTPUT_IMG])
+  # 下面是上传到oss
+  url = upload_by_file_name("face.png")
+  if matting:
+    # 下面去扣掉背景图
+    portrait_matting = pipeline(Tasks.portrait_matting, model='damo/cv_unet_image-matting')
+    result = portrait_matting(url)
+    cv2.imwrite('image/face.png', result[OutputKeys.OUTPUT_IMG])
+    # 下面是把扣好的图上传到oss
+    url = upload_by_file_name("face.png")
+  return response(data=url)
 

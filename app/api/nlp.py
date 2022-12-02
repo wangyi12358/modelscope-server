@@ -8,7 +8,6 @@ from modelscope.outputs import OutputKeys
 from typing import List
 import math
 
-
 router = APIRouter()
 
 ECOM = {
@@ -61,10 +60,11 @@ async def entity(body=Body(None)):
 # faq 相似度阈值
 threshold = 0.1
 
+
 @router.post("/faq")
 async def faq(
-  supports: List[object],
-  inputContent: List[str]
+    supports: List[object],
+    inputContent: List[str]
 ):
   faq_pipeline = pipeline(Tasks.faq_question_answering, 'damo/nlp_structbert_faq-question-answering_chinese-base')
   outputs = faq_pipeline({
@@ -73,7 +73,6 @@ async def faq(
   })
   res = []
   for answers in outputs['output']:
-    print(answers)
     max_answer = answers[0]
     support = find(supports, "label", max_answer["label"])
     if support != None and max_answer['score'] > threshold:
@@ -108,11 +107,19 @@ async def dialog(body=Body(None)):
       'history': result
     })
   return response(data=result[OutputKeys.OUTPUT])
+
+
 # 百科关系抽取模型介绍
 # https://modelscope.cn/models/damo/nlp_bert_relation-extraction_chinese-base/summary
 
 # 多语言中文摘要模型介绍
 # https://modelscope.cn/models/ZhipuAI/Multilingual-GLM-Summarization-zh/summary
+@router.post("/summarization")
+async def summarization(
+    inputContent: str =Body(embed=True)
+):
+  return response(data="ok")
+
 
 # 中英文翻译
 # https://modelscope.cn/models/damo/nlp_csanmt_translation_en2zh/summary
@@ -123,5 +130,19 @@ async def translation(body=Body(None)):
   outputs = pipeline_ins(input=text)
   return response(data=outputs['translation'])
 
-# 情感分析
+
+# 情感分析-英文
 # https://modelscope.cn/models/damo/nlp_bert_sentiment-analysis_english-base/summary
+@router.post("/analysis")
+async def analysis(body=Body(None)):
+  text = body[BodyConst.input_content]
+  semantic_cls = pipeline(Tasks.text_classification, 'damo/nlp_bert_sentiment-analysis_english-base')
+  result = semantic_cls(text)
+  scores = result['scores']
+  labels = result['labels']
+  res = []
+  for index, score in enumerate(scores):
+    obj = {}
+    obj['score'] = score
+    obj['label'] = labels[index]
+  return response(data=res)
