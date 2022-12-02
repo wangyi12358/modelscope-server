@@ -7,4 +7,4 @@ router = APIRouter()
 
 @router.get("/domain")
 async def get_domain():
-  return response(data=domain)
+    return response(data=domain)

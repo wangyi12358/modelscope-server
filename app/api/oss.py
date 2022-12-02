@@ -8,11 +8,11 @@ router = APIRouter()
 
 @router.post("/upload")
 async def oss_upload(file: UploadFile = File()):
-  url = await upload(file)
-  return response(data=url)
+    url = await upload(file)
+    return response(data=url)
 
 
 @router.get("/sign")
 async def oss_sign():
-  token = get_token()
-  return response(data=token)
+    token = get_token()
+    return response(data=token)
