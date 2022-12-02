@@ -149,11 +149,14 @@ async def analysis(body=Body(None)):
     text = body[BodyConst.input_content]
     semantic_cls = pipeline(Tasks.text_classification, 'damo/nlp_bert_sentiment-analysis_english-base')
     result = semantic_cls(text)
+    print(result)
     scores = result['scores']
     labels = result['labels']
     res = []
     for index, score in enumerate(scores):
-        obj = {}
-        obj['score'] = score
-        obj['label'] = labels[index]
+        obj = {
+            'score': str(score),
+            'label': labels[index]
+        }
+        res.append(obj)
     return response(data=res)
