@@ -132,3 +132,17 @@ async def generation_face(
         # 下面是把扣好的图上传到oss
         url = upload_by_file_name("face.png")
     return response(data=url)
+
+
+# https://modelscope.cn/models/damo/cv_diffusion_text-to-image-synthesis/summary
+# 根据文字描述生成文案
+@router.post("/image/synthesis")
+async def image_synthesis(
+        inputContent: str = Body(embed=True)
+):
+    synthesis_pipeline = pipeline(Tasks.text_to_image_synthesis, model='damo/cv_diffusion_text-to-image-synthesis')
+    result = synthesis_pipeline(inputContent)
+    cv2.imwrite('image/image_synthesis.png', result[OutputKeys.OUTPUT_IMG])
+    # 下面是上传到oss
+    url = upload_by_file_name("image_synthesis.png")
+    return response(data=url)
