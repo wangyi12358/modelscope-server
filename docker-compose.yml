@@ -1,0 +1,20 @@
+version: '3'
+services:
+  ai-server:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: ai-server
+    volumes:
+      - /nv/projects/modelscope:/app
+      - /nv/.cache/modelscope:/mnt/workspace/.cache/modelscope
+    container_name: ai-server
+    ports:
+      - 8000:8000
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: "nvidia"
+#              count: "all"
+#              capabilities: ["gpu"]
