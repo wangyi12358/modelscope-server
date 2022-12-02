@@ -1,4 +1,6 @@
 from typing import List
+
+
 # from uti
 
 # 找出值相等的项
@@ -7,6 +9,7 @@ def find(list: List[dict], key: str, value: str):
     if obj[key] == value:
       return obj
   return None
+
 
 # 找到最大值
 def find_max(list: List[dict], key: str):

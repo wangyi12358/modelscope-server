@@ -2,7 +2,7 @@ from enum import Enum
 
 input_type = {
   "text": "text",
-  "imageUrl": "imageUrl", # 图片
+  "imageUrl": "imageUrl",  # 图片
   "videoUrl": "videoUrl",
   "switch": "switch"
 }
@@ -14,9 +14,11 @@ output_type = {
   "imageUrl": "imageUrl"
 }
 
+
 class LanguageEnum(Enum):
   zh_CN = "zh_CN"
   en_US = "en_US"
+
 
 task_cv = [
   {

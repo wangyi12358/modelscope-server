@@ -1,7 +1,6 @@
 from fastapi import UploadFile
 import oss2
 
-
 access_key_id = 'LTAI5tPDUruA4n5GtnsYiJCZ'
 access_key_secret = 'APssOoePKC4utUv0eXuT2srJu9WWa1'
 endpoint = 'oss-cn-chengdu.aliyuncs.com'
@@ -10,8 +9,10 @@ auth = oss2.Auth(access_key_id, access_key_secret)
 bucket = oss2.Bucket(auth, endpoint, bucket_name)
 role_arn = "acs:ram::1786718467325799:role/aliyunossrole"
 
+
 def get_url_by_file_path(file_path: str):
   return 'https://' + bucket_name + '.' + endpoint + '/' + file_path
+
 
 async def upload(file: UploadFile):
   file_path = 'image/' + file.filename

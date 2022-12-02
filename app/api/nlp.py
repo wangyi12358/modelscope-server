@@ -116,7 +116,7 @@ async def dialog(body=Body(None)):
 # https://modelscope.cn/models/ZhipuAI/Multilingual-GLM-Summarization-zh/summary
 @router.post("/summarization")
 async def summarization(
-    inputContent: str =Body(embed=True)
+    inputContent: str = Body(embed=True)
 ):
   return response(data="ok")
 

@@ -12,8 +12,10 @@ import random
 
 router = APIRouter()
 
+
 class ImageRequest:
   image: str = ""
+
 
 # 获取图片类目
 # https://modelscope.oss-cn-beijing.aliyuncs.com/test/images/bird.JPEG
@@ -31,6 +33,7 @@ async def image_category(body=Body(None)):
     obj['score'] = str(score)
     res.append(obj)
   return response(data=res)
+
 
 # 获取图片文字
 @router.post("/image/words")
@@ -56,6 +59,7 @@ async def image_words(body=Body(None)):
   # 获取到四个点的xy轴
   return response(data=text)
 
+
 # 根据人像图片获取3d图片
 @router.post("/image/cartoon/3d")
 async def cartoon_3d(body=Body(None)):
@@ -67,6 +71,7 @@ async def cartoon_3d(body=Body(None)):
   # 下面是上传到oss
   url = upload_by_file_name("cartoon_3d.png")
   return response(data=url)
+
 
 # 获取视频商品类目
 @router.post("/video/category")
@@ -85,6 +90,7 @@ async def video_category(body=Body(None)):
     obj['score'] = str(score)
     res.append(obj)
   return response(data=res)
+
 
 # 获取短视频的类目
 @router.post("/short/video/category")
@@ -125,4 +131,3 @@ async def generation_face(
     # 下面是把扣好的图上传到oss
     url = upload_by_file_name("face.png")
   return response(data=url)
-
