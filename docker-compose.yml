@@ -7,7 +7,14 @@ services:
     image: ai-server
     volumes:
       - /nv/projects/modelscope:/app
-      - /root/.cache/modelscope:/mnt/workspace/.cache/modelscope
+      - /nv/.cache/modelscope:/mnt/workspace/.cache/modelscope
     container_name: ai-server
     ports:
       - 8000:8000
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - driver: "nvidia"
+#              count: "all"
+#              capabilities: ["gpu"]

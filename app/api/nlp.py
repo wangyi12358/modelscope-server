@@ -6,6 +6,7 @@ from app.utils.list import find_max, find
 from app.utils.constant import BodyConst
 from modelscope.outputs import OutputKeys
 from typing import List
+from modelscope.preprocessors import MGLMSummarizationPreprocessor
 import math
 
 router = APIRouter()
@@ -119,7 +120,16 @@ async def dialog(body=Body(None)):
 async def summarization(
         inputContent: str = Body(embed=True)
 ):
-    return response(data="ok")
+    model = 'ZhipuAI/Multilingual-GLM-Summarization-zh'
+    preprocessor = MGLMSummarizationPreprocessor()
+    pipe = pipeline(
+        task=Tasks.text_summarization,
+        model=model,
+        preprocessor=preprocessor,
+        model_revision='v1.0.1',
+    )
+    result = pipe(inputContent)
+    return response(data=result['text'])
 
 
 # 中英文翻译

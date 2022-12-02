@@ -11,6 +11,7 @@ output_type = {
     "scores": "scores",
     "text": "text",
     "texts": "texts",
+    "spans": "spans",
     "imageUrl": "imageUrl"
 }
 
@@ -484,7 +485,7 @@ task_nlp = [
                 "apiPath": "/nlp/entity",
                 "name": "命名实体识别-电商领域",
                 "input": input_type.get("text"),
-                "output": output_type.get("scores"),
+                "output": output_type.get("spans"),
                 "languages": [LanguageEnum.en_US.value],
                 "samples": [
                     'I typically camp remotely in the back country and this will be great to bring along to keep devices charged when not driving and keep the kids power hungry tablets/iPads that we let them watch at night in the tent and during boring parts of the drive.',
@@ -538,35 +539,43 @@ task_nlp = [
         "name": "句子相似度",
         "key": "sentence-similarity",
         "desc": "文本相似度服务提供不同文本之间相似度的计算，并输出一个介于0到1之间的分数，分数越大则文本之间的相似度越高"
-    }, {
+    },
+    {
         "name": "零样本分类",
         "key": "zero-shot-classification",
         "desc": "只需要提供待分类的句子和类别标签即可给出句子类别"
-    }, {
+    },
+    {
         "name": "自然语言推理",
         "key": "nli",
         "desc": "判断两个句子（Premise, Hypothesis）或者两个词之间的语义关系"
-    }, {
+    },
+    {
         "name": "问答",
         "key": "question-answering",
         "desc": "给定一长段文字，然后再给一个问题，然后理解长段文字之后，对这个问题进行解答。"
-    }, {
+    },
+    {
         "name": "任务型对话",
         "key": "task-oriented-conversation",
         "desc": "主要指机器人为满足用户某一需求而产生的多轮对话，机器人通过理解、澄清等方式确定用户意图，继而通过答复、调用API等方式完成该任务"
-    }, {
+    },
+    {
         "name": "开放型对话",
         "key": "open-domain-conversation",
         "desc": "无目的、无领域约束能够在开放域内进行有意义的对话"
-    }, {
+    },
+    {
         "name": "FAQ问答",
         "key": "faq-question-answering",
         "desc": "输入候选FAQ列表和一个或多个query，模型输出排序后的FAQ列表"
-    }, {
+    },
+    {
         "name": "表格问答",
         "key": "table-question-answering",
         "desc": "给定一张表格和一个query，query是询问表格里面的一些信息，模型给出答案"
-    }, {
+    },
+    {
         "name": "翻译",
         "key": "translation",
         "desc": "将一种语言的文本翻译成指定语言的文本",
@@ -579,11 +588,13 @@ task_nlp = [
                 "output": output_type.get("text")
             }
         ]
-    }, {
+    },
+    {
         "name": "完形填空",
         "key": "fill-mask",
         "desc": "输入一段文本，同时将里面的部分词mask掉，模型通过理解上下文预测被mask的词"
-    }, {
+    },
+    {
         "name": "文本生成",
         "key": "text-generation",
         "desc": "模型接受各种形式的信息作为输入，包括文本或者非文本结构化信息等，生成可读的文字表述。",
@@ -596,27 +607,42 @@ task_nlp = [
                 "output": output_type.get("text")
             }
         ]
-    }, {
+    },
+    {
         "name": "文本摘要",
         "key": "text-summarization",
-        "desc": "自动抽取输入文本中的关键信息并生成指定长度的摘要"
-    }, {
+        "desc": "自动抽取输入文本中的关键信息并生成指定长度的摘要",
+        "models": [
+            {
+                "apiPath": "/nlp/summarization",
+                "name": "多语言大模型-生成式摘要",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.zh_CN.value],
+                "output": output_type.get("text")
+            }
+        ]
+    },
+    {
         "name": "生成文本质量评价",
         "key": "generation-quality-evaluation",
         "desc": "在给定源端输入、目标端参考答案、或两者均有提供的情况下，算法用于评估所生成文本的质量"
-    }, {
+    },
+    {
         "name": "端到端文本生成",
         "key": "text2text-generation",
         "desc": "模型encoder端通过对输入信息进行理解编码后，在decoder端将信息解码生成可读的文字表述"
-    }, {
+    },
+    {
         "name": "特征抽取",
         "key": "feature-extraction",
         "desc": "通过模型将原始输入数据转化为向量特征"
-    }, {
+    },
+    {
         "name": "关系抽取",
         "key": "relation-extraction",
         "desc": "非结构或半结构化数据中找出主体与客体之间存在的关系，并将其表示为实体关系三元组"
-    }]
+    }
+]
 
 task_multi_modal = [
     {
