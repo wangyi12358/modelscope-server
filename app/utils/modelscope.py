@@ -32,7 +32,13 @@ task_cv = [
                 "name": "获取图片类目",
                 "input": input_type.get("imageUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("scores")
+                "output": output_type.get("scores"),
+                "samples": [
+                    "https://gw.alicdn.com/bao/upload/O1CN01HQALld1rcfLAnk8aN_!!6000000005652-0-yinhe.jpg",
+                    "https://gw.alicdn.com/bao/uploaded/i1/O1CN01bvW0Ns26Zf072Havi_!!6000000007676-2-yinhe.png",
+                    "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png",
+                    "https://gw.alicdn.com/bao/uploaded/i1/O1CN01aS4qHG1Nmne32esrm_!!6000000001613-2-yinhe.png"
+                ]
             }
         ]
     },
@@ -51,7 +57,11 @@ task_cv = [
                 "name": "获取图片文字",
                 "input": input_type.get("imageUrl"),
                 "languages": [LanguageEnum.zh_CN.value, LanguageEnum.en_US.value],
-                "output": output_type.get("texts")
+                "output": output_type.get("texts"),
+                "samples": [
+                    "https://gw.alicdn.com/bao/uploaded/i1/O1CN01bvW0Ns26Zf072Havi_!!6000000007676-2-yinhe.png",
+                    "https://gw.alicdn.com/bao/upload/O1CN01wkWDkF26ehLN8EbFb_!!6000000007687-0-yinhe.jpg"
+                ]
             }
         ]
     },
@@ -262,7 +272,12 @@ task_cv = [
                 "apiPath": "/cv/image/cartoon/3d",
                 "name": "根据人像图片获取3d图片",
                 "input": input_type.get("imageUrl"),
-                "output": output_type.get("imageUrl")
+                "output": output_type.get("imageUrl"),
+                "samples": [
+                    "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
+                    "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
+                    "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
             }
         ]
     },
@@ -281,7 +296,10 @@ task_cv = [
                 "name": "直播商品类目识别模型-电商领域",
                 "input": input_type.get("videoUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("scores")
+                "output": output_type.get("scores"),
+                "samples": [
+                    "https://zbanx-banker-image.oss-cn-chengdu.aliyuncs.com/upload/1669971877514.mp4"
+                ]
             }
         ]
     },
@@ -300,7 +318,10 @@ task_cv = [
                 "name": "短视频内容分类模型-通用领域",
                 "input": input_type.get("videoUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("scores")
+                "output": output_type.get("scores"),
+                "samples": [
+                    "https://zbanx-banker-image.oss-cn-chengdu.aliyuncs.com/upload/1669971650549.mp4"
+                ]
             }
         ]
     },
@@ -521,20 +542,25 @@ task_nlp = [
     }, {
         "name": "文本分类",
         "key": "text-classification",
-        "desc": "模型将载有信息的一篇文本映射到预先给定的某一类别或某几类别主题的过程",
+        "desc": "模型将载有信息的一篇文本映射到预先给定的某一类别或某几类别主题的过程"
+    }, {
+        "name": "情感分类",
+        "key": "sentiment-classification",
+        "desc": "分析并给出文本的情感正负倾向",
         "models": [
             {
                 "apiPath": "/nlp/analysis",
                 "name": "情感分析-英文",
                 "input": input_type.get("text"),
                 "languages": [LanguageEnum.en_US.value],
-                "output": output_type.get("scores")
+                "output": output_type.get("scores"),
+                "samples": [
+                    "I'm good!",
+                    "Good night.",
+                    "That's so bad!!"
+                ]
             }
         ]
-    }, {
-        "name": "情感分类",
-        "key": "sentiment-classification",
-        "desc": "分析并给出文本的情感正负倾向"
     }, {
         "name": "句子相似度",
         "key": "sentence-similarity",
@@ -582,10 +608,15 @@ task_nlp = [
         "models": [
             {
                 "apiPath": "/nlp/translation",
-                "name": "中英文翻译",
+                "name": "英文翻译成中文",
                 "input": input_type.get("text"),
                 "languages": [LanguageEnum.en_US.value],
-                "output": output_type.get("text")
+                "output": output_type.get("text"),
+                "samples": [
+                    "From 10th March 2022, AliExpress-RU has suspended the transfer of funds for confirmed orders due to the external situation. AliExpress-RU is waiting for the restoration of payments.",
+                    "The minimum threshold for withdrawal to PayPal/WebMoney is US$25, US$ 1,000 for withdrawal to bank card.",
+                    "For each commission withdrawal to PayPal, 4% surcharge is applied."
+                ]
             }
         ]
     },
@@ -604,7 +635,10 @@ task_nlp = [
                 "name": "PALM商品文案描述生成介绍",
                 "input": input_type.get("text"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("text")
+                "output": output_type.get("text"),
+                "samples": [
+                    "垃圾桶，双层，可拆卸，加高，加高双层，把手，垃圾桶，内附，万向轮"
+                ]
             }
         ]
     },
@@ -618,7 +652,11 @@ task_nlp = [
                 "name": "多语言大模型-生成式摘要",
                 "input": input_type.get("text"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("text")
+                "output": output_type.get("text"),
+                "samples": [
+                    "昨天起，上海地铁3号线长江南路站、殷高西路站、江湾镇站三站进一步限流。体验发现，高峰时段排队5分钟能进站；不少乘客选择提前起床，“现在提前10到20分钟起床，即便限流也不会影响上班”。被限流的XDJMS，你们提前多久？新民网",
+                    "本文总结了十个可穿戴产品的设计原则，而这些原则，同样也是笔者认为是这个行业最吸引人的地方：1.为人们解决重复性问题；2.从人开始，而不是从机器开始；3.要引起注意，但不要刻意；4.提升用户能力，而不是取代",
+                ]
             }
         ]
     },
@@ -655,7 +693,12 @@ task_multi_modal = [
                 "name": "图像描述-电商领域",
                 "input": input_type.get("imageUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
-                "output": output_type.get("text")
+                "output": output_type.get("text"),
+                "samples": [
+                    "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
+                    "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
+                    "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
             }
         ]
     }
