@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request, Response, status
 from app.api.api import router
+from app.api import template
 from fastapi.middleware.cors import CORSMiddleware
-from app.utils.response import response
+from starlette.staticfiles import StaticFiles
 import uvicorn
 import json
 
@@ -24,11 +25,13 @@ def get_application() -> FastAPI:
         allow_headers=["*"]  # 允许携带的 Headers
     )
     application.include_router(router, prefix="/api")
+    application.include_router(template.router)
 
     return application
 
 
 app = get_application()
+app.mount("/", StaticFiles(directory="static"), name="static")
 
 # @app.middleware("http")
 # async def jwt(request: Request, call_next):
