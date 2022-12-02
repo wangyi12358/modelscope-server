@@ -99,7 +99,7 @@ async def short_video_category(body=Body(None)):
     video_url = body['inputContent']
     os.system('wget -O short_video_category.mp4 {0}'.format(video_url))
     category_pipeline = pipeline(
-        Tasks.live_category, model='damo/cv_resnet50_video-category')
+        Tasks.video_category, model='damo/cv_resnet50_video-category')
     result = category_pipeline('short_video_category.mp4')
     scores = result.get("scores")
     labels = result.get("labels")
