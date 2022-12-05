@@ -160,3 +160,13 @@ async def analysis(body=Body(None)):
         }
         res.append(obj)
     return response(data=res)
+
+# 全中文任务支持零样本学习模型
+# https://modelscope.cn/models/ClueAI/PromptCLUE/summary
+@router.post("promptCLUE")
+async def promptCLUE(
+        inputContent: str = Body(embed=True)):
+    text = inputContent
+    p = pipeline('text2text-generation', 'ClueAI/PromptCLUE')
+    result = p(inputContent)
+    return response(data=result)

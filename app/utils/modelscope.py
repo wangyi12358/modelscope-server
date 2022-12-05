@@ -2,6 +2,7 @@ from enum import Enum
 
 input_type = {
     "text": "text",
+    "tags": "tags",
     "imageUrl": "imageUrl",  # 图片
     "videoUrl": "videoUrl",
     "switch": "switch"
