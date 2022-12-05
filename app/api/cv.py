@@ -118,7 +118,7 @@ async def short_video_category(body=Body(None)):
 async def generation_face(
         matting: bool = Body(embed=True, default=True)
 ):
-    random_num = random.randint(0, 1000)
+    random_num = random.randint(0, 100000)
     face_generation = pipeline(Tasks.face_image_generation, model='damo/cv_gan_face-image-generation')
     result = face_generation(random_num)
     cv2.imwrite('image/face.png', result[OutputKeys.OUTPUT_IMG])

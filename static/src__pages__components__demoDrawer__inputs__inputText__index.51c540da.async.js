@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkai_frontend=self.webpackChunkai_frontend||[]).push([[214],{70412:function(l,e,_){_.r(e);var n=_(30279),a=_.n(n),t=_(93236),u=_(86004),r=_(62086),d=u.Z.TextArea,s=(0,t.memo)(function(o){return(0,r.jsx)(d,a()({rows:6,placeholder:"\u8BF7\u8F93\u5165\u6D4B\u8BD5\u5185\u5BB9."},o))});e.default=s}}]);
