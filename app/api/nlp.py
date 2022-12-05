@@ -163,7 +163,7 @@ async def analysis(body=Body(None)):
 
 # 全中文任务支持零样本学习模型
 # https://modelscope.cn/models/ClueAI/PromptCLUE/summary
-@router.post("promptCLUE")
+@router.post("/promptCLUE")
 async def promptCLUE(
         inputContent: str = Body(embed=True)):
     text = inputContent
