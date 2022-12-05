@@ -270,7 +270,7 @@ task_cv = [
         "models": [
             {
                 "apiPath": "/cv/image/cartoon/3d",
-                "name": "根据人像图片获取3d图片",
+                "name": "根据人像图片获取3D图片",
                 "input": input_type.get("imageUrl"),
                 "output": output_type.get("imageUrl"),
                 "samples": [
