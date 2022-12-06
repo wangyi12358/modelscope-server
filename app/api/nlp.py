@@ -7,6 +7,8 @@ from app.utils.constant import BodyConst
 from modelscope.outputs import OutputKeys
 from typing import List
 from modelscope.preprocessors import MGLMSummarizationPreprocessor
+from modelscope.models.nlp import T5ForConditionalGeneration
+from modelscope.preprocessors import Text2TextGenerationPreprocessor
 import math
 
 router = APIRouter()
@@ -161,12 +163,15 @@ async def analysis(body=Body(None)):
         res.append(obj)
     return response(data=res)
 
+
 # 全中文任务支持零样本学习模型
 # https://modelscope.cn/models/ClueAI/PromptCLUE/summary
 @router.post("/promptCLUE")
 async def promptCLUE(
         inputContent: str = Body(embed=True)):
     text = inputContent
-    p = pipeline('text2text-generation', 'ClueAI/PromptCLUE')
-    result = p(inputContent)
-    return response(data=result)
+    model = T5ForConditionalGeneration.from_pretrained('ClueAI/PromptCLUE', revision='v0.1')
+    preprocessor = Text2TextGenerationPreprocessor(model.model_dir)
+    pipeline_t2t = pipeline(task=Tasks.text2text_generation, model=model, preprocessor=preprocessor)
+    result = pipeline_t2t(text)
+    return response(data=result['text'])
