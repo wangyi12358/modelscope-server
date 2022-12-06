@@ -271,7 +271,18 @@ task_cv = [
         "models": [
             {
                 "apiPath": "/cv/image/cartoon/3d",
-                "name": "根据人像图片获取3D图片",
+                "name": "根据人像图片生成3D卡通图片",
+                "input": input_type.get("imageUrl"),
+                "output": output_type.get("imageUrl"),
+                "samples": [
+                    "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
+                    "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
+                    "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
+            },
+            {
+                "apiPath": "/cv/image/cartoon",
+                "name": "根据人像图片生成卡通化图片",
                 "input": input_type.get("imageUrl"),
                 "output": output_type.get("imageUrl"),
                 "samples": [
