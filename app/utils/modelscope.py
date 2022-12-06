@@ -512,10 +512,9 @@ task_nlp = [
                 "samples": [
                     'I typically camp remotely in the back country and this will be great to bring along to keep devices charged when not driving and keep the kids power hungry tablets/iPads that we let them watch at night in the tent and during boring parts of the drive.',
                     'I just used it this weekend to power my Alpicool mini fridge on our road trip and was extremely satisfied with how well it worked and how long it lasted.',
-                    'This little guy is great for camping, running fans, etc at the picnic table in the summer, charging devices, etc.',
                     'I got this for my camping trips.',
+                    'Better is to get a proper bicycle whitout a motor or battery',
                     'It was an easy decision to buy this for camping and my DC travel CPAP machine.',
-                    'If all I do is use it for topping up phones and tablets by USB all week, it will stay at 99% and then switch off at zero.',
                     'I bought this for the small size and the Anker brand, the later being a mistake.',
                 ],
             }
@@ -561,7 +560,11 @@ task_nlp = [
                     "推理关系判断：\n前提：小明今天在北京\n假设：小明在深圳旅游\n选项：矛盾，蕴含，中立\n答案：",
                     "阅读以下对话并回答问题。\n男：今天怎么这么晚才来上班啊？女：昨天工作到很晚，而且我还感冒了。男：那你回去休息吧，我帮你请假。女：谢谢你。\n问题：女的怎么样？\n选项：正在工作，感冒了，在打电话，要出差。",
                     "文本纠错：\n告诉二营长，叫他彻回来，我李云龙从不打没有准备的杖\n答案：",
-                    "问答：\n问题：小米的创始人是谁？\n答案："
+                    "问答：\n问题：小米的创始人是谁？\n答案：",
+                    '''阅读文本抽取关键信息：
+tell me i have an unreliable ford.. its a ford fucking ranger so.... i change oil and tires lol lots of tires。
+问题：APP，价格，减震性能，制动性能，变速系统，售后/客服/服务，电机，电池续航，车身体积，车身材质/重量/承重，轮胎，速度，防护
+答案：'''
                 ],
                 "desc": "简要描述：\n 1. 分类任务：输入提示、文本和分类选项，输出文本所属的种类；\n 2. 自然语言推理任务：输入提示、两段文本，输出两者所属关系；\n 3. 阅读理解任务：输入提示、参考文本和问题（以及选项），输出问题的答案；\n 4. 生成任务：输入提示、文本和问题，输出按照要求生成的文本（详细示例见代码范例）"
             }
@@ -578,9 +581,10 @@ task_nlp = [
                 "languages": [LanguageEnum.en_US.value],
                 "output": output_type.get("scores"),
                 "samples": [
-                    "I'm good!",
-                    "Good night.",
-                    "That's so bad!!"
+                    "Tell me i have an unreliable ford.. its a ford fucking ranger so.... i change oil and tires lol lots of tires",
+                    "Great product, good price, great seller. Congratulations",
+                    "Recommend a well built very beautiful worth buying",
+                    "Fast delivery and always a good price to buy at certain time. Excellent phine"
                 ]
             }
         ]
