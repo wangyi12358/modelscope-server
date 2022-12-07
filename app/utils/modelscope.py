@@ -5,6 +5,7 @@ input_type = {
     "tags": "tags",
     "imageUrl": "imageUrl",  # 图片
     "videoUrl": "videoUrl",
+    "audioUrl": "audioUrl",
     "switch": "switch"
 }
 
@@ -13,7 +14,8 @@ output_type = {
     "text": "text",
     "texts": "texts",
     "spans": "spans",
-    "imageUrl": "imageUrl"
+    "imageUrl": "imageUrl",
+    "audioUrl": "audioUrl"
 }
 
 
@@ -727,7 +729,7 @@ task_multi_modal = [
         "desc": "根据图片生成一段文本描述",
         "models": [
             {
-                "apiPath": "/multi/modal/image/caption",
+                "apiPath": "/multi_modal/image/caption",
                 "name": "图像描述-电商领域",
                 "input": input_type.get("imageUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
@@ -736,6 +738,55 @@ task_multi_modal = [
                     "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
                     "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
                     "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
+            }
+        ]
+    }
+]
+
+task_audio = [
+    {
+        "name": "语音识别",
+        "key": "auto-speech-recognition",
+        "desc": "将人类的语音信号转换成文本或者指令",
+        "models": [
+            {
+                "apiPath": "/audio/auto_speech_recognition/uniasr",
+                "name": "UniASR语音识别-中文英文混-通用",
+                "desc": "注意: 只支持 .wav 格式。 不超过30秒，GPU资源有限，推理时间会比较长。",
+                "input": input_type.get("audioUrl"),
+                "languages": [LanguageEnum.zh_CN.value, LanguageEnum.en_US.value],
+                "output": output_type.get("text"),
+                "samples": [
+                    "https://isv-data.oss-cn-hangzhou.aliyuncs.com/ics/MaaS/ASR/test_audio/asr_example.wav"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "语音合成",
+        "key": "text-to-speech",
+        "desc": "将文本转换成人类听的到的声音",
+        "models": [
+            {
+                "apiPath": "/audio/text_to_speech/speech_sambert_en",
+                "name": "语音合成-英式英文-通用领域",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.en_US.value],
+                "output": output_type.get("audioUrl"),
+                "samples": [
+                    "How is the weather in beijing?"
+                ]
+            },
+            {
+                "apiPath": "/audio/text_to_speech/speech_sambert_cn",
+                "name": "语音合成-中文-多情感领域",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.zh_CN.value],
+                "output": output_type.get("audioUrl"),
+                "samples": [
+                    "今天成都天气怎么样?",
+                    "各种语音合成任务，比如配音，虚拟主播，数字人等。适用于中文或中英文混合的语音合成场景，输入文本使用utf-8编码，整体长度建议不超过30字"
                 ]
             }
         ]
@@ -752,6 +803,11 @@ domain = {
         "name": '计算机视觉',
         "fullName": 'Computer Vision',
         "tasks": task_cv
+    },
+    "audio": {
+        "name": '音频处理',
+        "fullName": 'Audio',
+        "tasks": task_audio
     },
     "multiModal": {
         "name": '多模态',
