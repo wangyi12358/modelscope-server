@@ -171,7 +171,7 @@ async def analysis(body=Body(None)):
 async def promptCLUE(
         inputContent: str = Body(embed=True)):
     text = inputContent
-    model = T5ForConditionalGeneration.from_pretrained('ClueAI/PromptCLUE', revision='v0.1')
+    model = T5ForConditionalGeneration.from_pretrained('ClueAI/PromptCLUE-base-v1-5', revision='v0.1')
     preprocessor = Text2TextGenerationPreprocessor(model.model_dir)
     pipeline_t2t = pipeline(task=Tasks.text2text_generation, model=model, preprocessor=preprocessor)
     result = pipeline_t2t(text)
