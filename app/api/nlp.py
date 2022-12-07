@@ -7,6 +7,8 @@ from app.utils.constant import BodyConst
 from modelscope.outputs import OutputKeys
 from typing import List
 from modelscope.preprocessors import MGLMSummarizationPreprocessor
+from modelscope.models.nlp import T5ForConditionalGeneration
+from modelscope.preprocessors import Text2TextGenerationPreprocessor
 import math
 
 router = APIRouter()
@@ -20,21 +22,22 @@ ECOM = {
     "CROWD": "对象",
     "IP": "IP",
     "LOCATION": "地点",
-    "MAIN_BRAND": "主品牌",
-    "MATERIAL": "材质",
+    "MAIN_BRAND": "品牌相关",
+    "MATERIAL": "材质相关",
     "MEASUREMENT": "度量值",
     "MEASUREMENT&PRODUCT": "度量值&产品",
-    "MODEL": "型号",
-    "OBJECT_PRODUCT": "产品修饰词",
-    "OCCASION": "适用场景",
+    "MODEL": "型号相关",
+    "OBJECT_PRODUCT": "产品修饰词相关",
+    "OCCASION": "场景相关",
     "PATTERN": "图案",
     "PREP": "介词",
-    "PRODUCT": "产品词",
-    "SHAPE": "形状",
-    "SHOP": "店铺",
+    "PRODUCT": "产品词相关",
+    "SHAPE": "形状相关",
+    "SHOP": "店铺相关",
     "STOP": "停用词",
     "STYLE": "风格",
     "TIME": "时间",
+    "SALE": "销售",
 }
 
 
@@ -161,12 +164,15 @@ async def analysis(body=Body(None)):
         res.append(obj)
     return response(data=res)
 
+
 # 全中文任务支持零样本学习模型
 # https://modelscope.cn/models/ClueAI/PromptCLUE/summary
 @router.post("/promptCLUE")
 async def promptCLUE(
         inputContent: str = Body(embed=True)):
     text = inputContent
-    p = pipeline('text2text-generation', 'ClueAI/PromptCLUE')
-    result = p(inputContent)
-    return response(data=result)
+    model = T5ForConditionalGeneration.from_pretrained('ClueAI/PromptCLUE-base-v1-5', revision='v0.1')
+    preprocessor = Text2TextGenerationPreprocessor(model.model_dir)
+    pipeline_t2t = pipeline(task=Tasks.text2text_generation, model=model, preprocessor=preprocessor)
+    result = pipeline_t2t(text)
+    return response(data=result['text'])

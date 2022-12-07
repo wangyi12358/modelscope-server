@@ -5,6 +5,7 @@ input_type = {
     "tags": "tags",
     "imageUrl": "imageUrl",  # 图片
     "videoUrl": "videoUrl",
+    "audioUrl": "audioUrl",
     "switch": "switch"
 }
 
@@ -13,7 +14,8 @@ output_type = {
     "text": "text",
     "texts": "texts",
     "spans": "spans",
-    "imageUrl": "imageUrl"
+    "imageUrl": "imageUrl",
+    "audioUrl": "audioUrl"
 }
 
 
@@ -271,7 +273,18 @@ task_cv = [
         "models": [
             {
                 "apiPath": "/cv/image/cartoon/3d",
-                "name": "根据人像图片获取3D图片",
+                "name": "根据人像图片生成3D卡通图片",
+                "input": input_type.get("imageUrl"),
+                "output": output_type.get("imageUrl"),
+                "samples": [
+                    "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
+                    "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
+                    "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
+            },
+            {
+                "apiPath": "/cv/image/cartoon",
+                "name": "根据人像图片生成卡通化图片",
                 "input": input_type.get("imageUrl"),
                 "output": output_type.get("imageUrl"),
                 "samples": [
@@ -512,10 +525,9 @@ task_nlp = [
                 "samples": [
                     'I typically camp remotely in the back country and this will be great to bring along to keep devices charged when not driving and keep the kids power hungry tablets/iPads that we let them watch at night in the tent and during boring parts of the drive.',
                     'I just used it this weekend to power my Alpicool mini fridge on our road trip and was extremely satisfied with how well it worked and how long it lasted.',
-                    'This little guy is great for camping, running fans, etc at the picnic table in the summer, charging devices, etc.',
                     'I got this for my camping trips.',
+                    'Better is to get a proper bicycle whitout a motor or battery',
                     'It was an easy decision to buy this for camping and my DC travel CPAP machine.',
-                    'If all I do is use it for topping up phones and tablets by USB all week, it will stay at 99% and then switch off at zero.',
                     'I bought this for the small size and the Anker brand, the later being a mistake.',
                 ],
             }
@@ -543,7 +555,33 @@ task_nlp = [
     }, {
         "name": "文本分类",
         "key": "text-classification",
-        "desc": "模型将载有信息的一篇文本映射到预先给定的某一类别或某几类别主题的过程"
+        "desc": "模型将载有信息的一篇文本映射到预先给定的某一类别或某几类别主题的过程",
+        "models": [
+            {
+                "apiPath": "/nlp/promptCLUE",
+                "name": "全中文任务支持零样本学习模型",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.zh_CN.value],
+                "output": output_type.get("text"),
+                "samples": [
+                    "情感分析：\n这个看上去还可以，但其实我不喜欢\n选项：积极，消极",
+                    "下面句子是否表示了相同的语义：\n文本1：糖尿病腿麻木怎么办？\n文本2：糖尿病怎样控制生活方式\n选项：相似，不相似\n答案：",
+                    "这是关于哪方面的新闻：\n如果日本沉没，中国会接收日本难民吗？\n选项：故事,文化,娱乐,体育,财经,房产,汽车,教育,科技,军事,旅游,国际,股票,农业,游戏",
+                    "阅读文本抽取关键信息：\n张玄武1990年出生中国国籍无境外居留权博士学历现任杭州线锁科技技术总监。\n问题：机构，人名，职位，籍贯，专业，国籍，学历，种族\n答案：",
+                    "翻译成英文：\n杀不死我的只会让我更强大\n答案：",
+                    "为下面的文章生成摘要：\n北京时间9月5日12时52分，四川甘孜藏族自治州泸定县发生6.8级地震。地震发生后，领导高度重视并作出重要指示，要求把抢救生命作为首要任务，全力救援受灾群众，最大限度减少人员伤亡",
+                    "推理关系判断：\n前提：小明今天在北京\n假设：小明在深圳旅游\n选项：矛盾，蕴含，中立\n答案：",
+                    "阅读以下对话并回答问题。\n男：今天怎么这么晚才来上班啊？女：昨天工作到很晚，而且我还感冒了。男：那你回去休息吧，我帮你请假。女：谢谢你。\n问题：女的怎么样？\n选项：正在工作，感冒了，在打电话，要出差。",
+                    "文本纠错：\n告诉二营长，叫他彻回来，我李云龙从不打没有准备的杖\n答案：",
+                    "问答：\n问题：小米的创始人是谁？\n答案：",
+                    '''阅读文本抽取关键信息：
+tell me i have an unreliable ford.. its a ford fucking ranger so.... i change oil and tires lol lots of tires。
+问题：APP，价格，减震性能，制动性能，变速系统，售后/客服/服务，电机，电池续航，车身体积，车身材质/重量/承重，轮胎，速度，防护
+答案：'''
+                ],
+                "desc": "简要描述：\n 1. 分类任务：输入提示、文本和分类选项，输出文本所属的种类；\n 2. 自然语言推理任务：输入提示、两段文本，输出两者所属关系；\n 3. 阅读理解任务：输入提示、参考文本和问题（以及选项），输出问题的答案；\n 4. 生成任务：输入提示、文本和问题，输出按照要求生成的文本（详细示例见代码范例）"
+            }
+        ]
     }, {
         "name": "情感分类",
         "key": "sentiment-classification",
@@ -556,9 +594,10 @@ task_nlp = [
                 "languages": [LanguageEnum.en_US.value],
                 "output": output_type.get("scores"),
                 "samples": [
-                    "I'm good!",
-                    "Good night.",
-                    "That's so bad!!"
+                    "Tell me i have an unreliable ford.. its a ford fucking ranger so.... i change oil and tires lol lots of tires",
+                    "Great product, good price, great seller. Congratulations",
+                    "Recommend a well built very beautiful worth buying",
+                    "Fast delivery and always a good price to buy at certain time. Excellent phine"
                 ]
             }
         ]
@@ -690,7 +729,7 @@ task_multi_modal = [
         "desc": "根据图片生成一段文本描述",
         "models": [
             {
-                "apiPath": "/multi/modal/image/caption",
+                "apiPath": "/multi_modal/image/caption",
                 "name": "图像描述-电商领域",
                 "input": input_type.get("imageUrl"),
                 "languages": [LanguageEnum.zh_CN.value],
@@ -699,6 +738,55 @@ task_multi_modal = [
                     "https://img.alicdn.com/bao/uploaded/i1/1137045164/O1CN01HxtrJN1o1A2nGmPQq_!!0-item_pic.jpg_440x440.jpg",
                     "https://gw.alicdn.com/tfs/TB1ivqto1T2gK0jSZFvXXXnFXXa-468-602.jpg_480x480.jpg",
                     "https://gw.alicdn.com/bao/uploaded/i1/i2/134363478/O1CN01kzXtZ61bYyIL98siq_!!2-item_pic.png_480x480.jpg"
+                ]
+            }
+        ]
+    }
+]
+
+task_audio = [
+    {
+        "name": "语音识别",
+        "key": "auto-speech-recognition",
+        "desc": "将人类的语音信号转换成文本或者指令",
+        "models": [
+            {
+                "apiPath": "/audio/auto_speech_recognition/uniasr",
+                "name": "UniASR语音识别-中文英文混-通用",
+                "desc": "注意: 只支持 .wav 格式。 不超过30秒，GPU资源有限，推理时间会比较长。",
+                "input": input_type.get("audioUrl"),
+                "languages": [LanguageEnum.zh_CN.value, LanguageEnum.en_US.value],
+                "output": output_type.get("text"),
+                "samples": [
+                    "https://isv-data.oss-cn-hangzhou.aliyuncs.com/ics/MaaS/ASR/test_audio/asr_example.wav"
+                ]
+            }
+        ]
+    },
+    {
+        "name": "语音合成",
+        "key": "text-to-speech",
+        "desc": "将文本转换成人类听的到的声音",
+        "models": [
+            {
+                "apiPath": "/audio/text_to_speech/speech_sambert_en",
+                "name": "语音合成-英式英文-通用领域",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.en_US.value],
+                "output": output_type.get("audioUrl"),
+                "samples": [
+                    "How is the weather in beijing?"
+                ]
+            },
+            {
+                "apiPath": "/audio/text_to_speech/speech_sambert_cn",
+                "name": "语音合成-中文-多情感领域",
+                "input": input_type.get("text"),
+                "languages": [LanguageEnum.zh_CN.value],
+                "output": output_type.get("audioUrl"),
+                "samples": [
+                    "今天成都天气怎么样?",
+                    "各种语音合成任务，比如配音，虚拟主播，数字人等。适用于中文或中英文混合的语音合成场景，输入文本使用utf-8编码，整体长度建议不超过30字"
                 ]
             }
         ]
@@ -715,6 +803,11 @@ domain = {
         "name": '计算机视觉',
         "fullName": 'Computer Vision',
         "tasks": task_cv
+    },
+    "audio": {
+        "name": '音频处理',
+        "fullName": 'Audio',
+        "tasks": task_audio
     },
     "multiModal": {
         "name": '多模态',

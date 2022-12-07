@@ -42,5 +42,5 @@ app.mount("/", StaticFiles(directory="static"), name="static")
 #     return res
 
 if __name__ == '__main__':
-    # 服务端端口是 8080！
+    # 服务端端口是 8000！
     uvicorn.run(app="app.main:app", reload=True, host="192.168.1.107", port=8000)

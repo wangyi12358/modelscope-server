@@ -146,3 +146,17 @@ async def image_synthesis(
     # 下面是上传到oss
     url = upload_by_file_name("image_synthesis.png")
     return response(data=url)
+
+
+# https://modelscope.cn/models/damo/cv_unet_person-image-cartoon_compound-models/summary
+# 生成卡通化
+@router.post("/image/cartoon")
+async def image_cartoon(
+        inputContent: str = Body(embed=True)
+):
+    img_cartoon = pipeline(Tasks.image_portrait_stylization, model='damo/cv_unet_person-image-cartoon_compound-models')
+    result = img_cartoon(inputContent)
+    cv2.imwrite('image/image_cartoon.png', result[OutputKeys.OUTPUT_IMG])
+    # 下面是上传到oss
+    url = upload_by_file_name("image_cartoon.png")
+    return response(data=url)
