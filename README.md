@@ -7,6 +7,7 @@ $ docker-compose -f ./docker-compose.yml build --force-rm ai-server
 
 ## 启动镜像
 ```shell
+# 直接使用docker 命令启动才能开启gpu
 $ docker run -d --gpus all --name ai-server -v /nv/projects/modelscope:/app -v /nv/.cache/modelscope:/mnt/workspace/.cache/modelscope  -p 8000:8000 ai-server
 $ docker-compose -f ./docker-compose.yml up --force-recreate -d ai-server
 ```
