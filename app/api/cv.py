@@ -61,6 +61,17 @@ async def image_words(body=Body(None)):
     return response(data=text)
 
 
+@router.post("/image/getText")
+async def image_get_text(body=Body(None)):
+    image = body['inputContent']
+    ocr_recognition = pipeline(Tasks.ocr_recognition, model='damo/cv_convnextTiny_ocr-recognition-general_damo')
+    # 根据图片链接获取文字文本
+    # img = cv2.imread(image)
+    text_result = ocr_recognition(image)
+    return response(data=text_result['text'])
+
+
+
 # 根据人像图片获取3d图片
 @router.post("/image/cartoon/3d")
 async def cartoon_3d(body=Body(None)):

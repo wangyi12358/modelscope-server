@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from app.api import nlp, cv, oss, multiModal, common, audio
+from app.api import nlp, cv, oss, multiModal, common, audio, openai
 from starlette.templating import Jinja2Templates
 
 router = APIRouter()
@@ -9,3 +9,4 @@ router.include_router(audio.router, tags=["audio"], prefix="/audio")
 router.include_router(oss.router, tags=["oss"], prefix="/oss")
 router.include_router(multiModal.router, tags=["multiModal"], prefix="/multi_modal")
 router.include_router(common.router, tags=["common"], prefix="/common")
+router.include_router(openai.router, tags=["openai"], prefix="/openai")
